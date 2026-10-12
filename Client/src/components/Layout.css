@@ -1,0 +1,103 @@
+
+/* המסגרת הראשית */
+.layout-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, sans-serif;
+    direction: rtl;
+    background-color: #FFFFFF;
+    color: #151515;
+}
+
+/* סרגל ניווט עליון */
+.layout-navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 15px 30px;
+    background-color: #151515;
+    color: #F7F2E8;
+    border-bottom: 2px solid #C6A15B;
+}
+
+/* כותרת המערכת */
+.layout-title {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: #F7F2E8;
+}
+
+/* אזור הקישורים */
+.layout-nav-links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* קישור דף הבית */
+.layout-home-link {
+    color: #C6A15B;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.layout-home-link:hover {
+    color: #F7F2E8;
+}
+
+/* כפתור פאנל ניהול */
+.layout-admin-link {
+    display: inline-block;
+    padding: 10px 16px;
+    background-color: #C6A15B;
+    color: #151515;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+}
+
+.layout-admin-link:hover {
+    background-color: #D8B979;
+}
+
+/* אזור התוכן */
+.layout-content {
+    flex: 1;
+    padding: 20px;
+    background-color: #FFFFFF;
+}
+
+/* תחתית העמוד */
+
+.layout-footer {
+    text-align: center;
+    margin-top: 50px;
+    padding: 20px 15px;
+    color: #C6A15B;
+    border-top: 2px solid #C6A15B;
+    background-color: #151515;
+    font-size: 15px;
+}
+
+
+/* התאמה למסכים קטנים */
+@media (max-width: 600px) {
+    .layout-navbar {
+        padding: 15px;
+        flex-wrap: wrap;
+    }
+
+    .layout-nav-links {
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .layout-content {
+        padding: 15px;
+    }
+}

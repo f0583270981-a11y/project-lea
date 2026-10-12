@@ -1,0 +1,148 @@
+
+/* עמוד יצירת גלריה */
+.create-gallery-page {
+    direction: rtl;
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 30px 20px;
+    font-family: Arial, sans-serif;
+    color: #151515;
+    background-color: #FFFFFF;
+}
+
+/* כותרת העמוד */
+.create-gallery-header {
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.create-gallery-header h2 {
+    margin: 0 0 10px;
+    font-size: 28px;
+    font-weight: 700;
+    color: #151515;
+}
+
+.create-gallery-header p {
+    margin: 0;
+    color: #766B5B;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+/* כרטיס הטופס */
+.create-gallery-card {
+    padding: 28px;
+    background-color: #F7F2E8;
+    border: 1px solid #E4D9C5;
+    border-radius: 14px;
+    box-shadow: 0 5px 20px rgba(21, 21, 21, 0.06);
+}
+
+/* הטופס */
+.create-gallery-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* כל שדה */
+.create-gallery-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.create-gallery-field label {
+    font-size: 15px;
+    font-weight: 600;
+    color: #151515;
+}
+
+/* שדות קלט */
+.create-gallery-field input {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 44px;
+    padding: 11px 12px;
+    font-family: inherit;
+    font-size: 15px;
+    color: #151515;
+    background-color: #FFFFFF;
+    border: 1px solid #D9CDB8;
+    border-radius: 7px;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.create-gallery-field input:focus {
+    border-color: #C6A15B;
+    box-shadow: 0 0 0 3px rgba(198, 161, 91, 0.16);
+}
+
+/* אזור בחירת תמונות */
+.create-gallery-file-input {
+    padding: 14px !important;
+    background-color: #FFFFFF;
+    border: 1px dashed #C6A15B !important;
+    border-radius: 9px !important;
+    cursor: pointer;
+}
+
+.create-gallery-file-input::file-selector-button {
+    margin-left: 12px;
+    padding: 8px 12px;
+    font-family: inherit;
+    font-weight: 600;
+    color: #151515;
+    background-color: #F7F2E8;
+    border: 1px solid #C6A15B;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.create-gallery-file-input::file-selector-button:hover {
+    background-color: #EDE2CC;
+}
+
+/* כפתור יצירת גלריה */
+.create-gallery-submit {
+    width: 100%;
+    min-height: 48px;
+    margin-top: 4px;
+    padding: 12px 18px;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 700;
+    color: #151515;
+    background-color: #C6A15B;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.create-gallery-submit:hover:not(:disabled) {
+    background-color: #D8B979;
+    transform: translateY(-1px);
+}
+
+.create-gallery-submit:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+/* התאמה למסכים קטנים */
+@media (max-width: 600px) {
+    .create-gallery-page {
+        padding: 20px 12px;
+    }
+
+    .create-gallery-header h2 {
+        font-size: 23px;
+    }
+
+    .create-gallery-card {
+        padding: 18px;
+    }
+}

@@ -1,0 +1,1187 @@
+/* =========================================
+   GALLERY VIEW — LUXURY
+   שחור | שמנת | זהב
+========================================= */
+
+.gallery-view-page {
+  --gallery-black: #171612;
+  --gallery-black-soft: #24221c;
+  --gallery-cream: #f8f5ee;
+  --gallery-white: #fffaf0;
+  --gallery-gold: #c6a66b;
+  --gallery-gold-light: #e5d1a4;
+  --gallery-text: #29271f;
+  --gallery-muted: #898477;
+  --gallery-border: #d7c8a9;
+
+  min-height: 100vh;
+  padding: 36px 24px 50px;
+  background:
+    radial-gradient(ellipse at top, #373126 0%, transparent 55%),
+    var(--gallery-black);
+  color: var(--gallery-text);
+  font-family: Arial, sans-serif;
+  direction: rtl;
+  box-sizing: border-box;
+}
+
+.gallery-view-page *,
+.gallery-view-page *::before,
+.gallery-view-page *::after,
+.gallery-view-login *,
+.gallery-view-login *::before,
+.gallery-view-login *::after {
+  box-sizing: border-box;
+}
+
+.gallery-view-page button,
+.gallery-view-page input,
+.gallery-view-page textarea,
+.gallery-view-login button,
+.gallery-view-login input {
+  font-family: inherit;
+}
+
+/* =========================================
+   מצבי טעינה ושגיאה
+========================================= */
+
+.gallery-view-status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+  padding: 30px;
+  color: var(--gallery-cream);
+  text-align: center;
+  direction: rtl;
+}
+
+.gallery-view-status h2 {
+  color: var(--gallery-gold-light);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 28px;
+  font-weight: 400;
+}
+
+.gallery-view-status--error {
+  color: #e5a49a;
+}
+
+/* =========================================
+   כרטיסים ראשיים
+========================================= */
+
+.gallery-view-page .gallery-view-panel {
+  position: relative;
+  max-width: 1450px;
+  margin: 0 auto 30px;
+  padding: 34px 38px;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 50% 0%, #fdfbf5 0%, transparent 70%),
+    var(--gallery-cream);
+  border: 1px solid var(--gallery-border);
+  border-radius: 4px;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.2);
+}
+
+.gallery-view-page .gallery-view-title {
+  margin: 0 0 14px;
+  color: var(--gallery-black);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: 0.3px;
+}
+
+.gallery-view-page .gallery-view-subtitle {
+  margin: 0 0 24px;
+  color: #777064;
+  font-size: 15px;
+  line-height: 1.9;
+}
+
+.gallery-view-page .gallery-view-eyebrow {
+  margin: 0 0 12px;
+  color: #9b7b43;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  line-height: 1.8;
+}
+
+.gallery-view-page .gallery-view-divider {
+  width: 70px;
+  height: 1px;
+  margin: 20px 0 26px;
+  background: var(--gallery-gold);
+  border: 0;
+}
+
+.gallery-view-page .gallery-view-section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.gallery-view-page .gallery-view-section-heading--gallery {
+  margin-bottom: 24px;
+}
+
+.gallery-view-page .gallery-view-section-title {
+  margin: 0;
+  color: var(--gallery-black);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(23px, 2.7vw, 32px);
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.gallery-view-page .gallery-view-count-badge {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  min-height: 37px;
+  padding: 9px 14px;
+  color: #e5d1a4;
+  background: var(--gallery-black-soft);
+  border: 1px solid rgba(198, 166, 107, 0.55);
+  border-radius: 3px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* =========================================
+   כפתורים
+========================================= */
+
+.gallery-view-page .gallery-view-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 45px;
+  padding: 12px 19px;
+  color: var(--gallery-cream);
+  background: var(--gallery-black-soft);
+  border: 1px solid #38352d;
+  border-radius: 3px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.5;
+  text-align: center;
+  cursor: pointer;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.gallery-view-page .gallery-view-button:hover:not(:disabled) {
+  color: var(--gallery-gold-light);
+  background: #302b21;
+  border-color: var(--gallery-gold);
+  box-shadow: 0 7px 20px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+.gallery-view-page .gallery-view-button:focus-visible {
+  outline: 2px solid var(--gallery-gold);
+  outline-offset: 3px;
+}
+
+.gallery-view-page .gallery-view-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.gallery-view-page .gallery-view-button--gold {
+  color: #211c12;
+  background: linear-gradient(135deg, #e8d5a9, #c3a269);
+  border-color: var(--gallery-gold);
+}
+
+.gallery-view-page .gallery-view-button--gold:hover:not(:disabled) {
+  color: #211c12;
+  background: linear-gradient(135deg, #f2e4c4, #d2b47b);
+}
+
+.gallery-view-page .gallery-view-button--light {
+  color: var(--gallery-black);
+  background: transparent;
+  border-color: #b9a477;
+}
+
+.gallery-view-page .gallery-view-button--light:hover:not(:disabled) {
+  color: var(--gallery-black);
+  background: #eae0ce;
+  border-color: var(--gallery-gold);
+}
+
+.gallery-view-page .gallery-view-back {
+  margin-bottom: 24px;
+}
+
+.gallery-view-page .gallery-view-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.gallery-view-page .gallery-view-actions--top {
+  margin: 0 0 24px;
+}
+
+/* =========================================
+   מונה בחירות והודעות
+========================================= */
+
+.gallery-view-page .gallery-view-selection-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0 18px;
+  padding: 12px 17px;
+  color: var(--gallery-cream);
+  background: var(--gallery-black-soft);
+  border: 1px solid rgba(198, 166, 107, 0.45);
+  border-radius: 3px;
+  font-size: 14px;
+}
+
+.gallery-view-page .gallery-view-selection-count strong {
+  color: var(--gallery-gold-light);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 22px;
+}
+
+.gallery-view-page .gallery-view-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px 26px;
+  margin: 20px 0;
+}
+
+.gallery-view-page .gallery-view-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: #57534a;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.gallery-view-page .gallery-view-legend-dot {
+  width: 10px;
+  height: 10px;
+  flex: 0 0 10px;
+  border-radius: 50%;
+}
+
+.gallery-view-page .gallery-view-message {
+  margin: 16px 0;
+  padding: 15px 17px;
+  color: #76551e;
+  background: #f5ecd9;
+  border: 1px solid #d8bf8e;
+  border-right: 3px solid var(--gallery-gold);
+  border-radius: 2px;
+  line-height: 1.8;
+}
+
+/* =========================================
+   אזור הגלריה
+========================================= */
+
+.gallery-view-page .gallery-view-gallery-section {
+  max-width: 1450px;
+  margin: 0 auto 38px;
+}
+
+.gallery-view-page .gallery-view-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(min(100%, 270px), 1fr)
+  );
+  align-items: start;
+  gap: 25px;
+  max-width: 1450px;
+  margin: 0 auto;
+}
+
+.gallery-view-page .gallery-view-grid--edited {
+  margin-top: 0;
+}
+
+/* =========================================
+   כרטיסי התמונות
+========================================= */
+
+.gallery-view-page .gallery-view-card {
+  min-width: 0;
+  overflow: hidden;
+  background: var(--gallery-cream);
+  border: 1px solid #d7c8a9;
+  border-radius: 4px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+  animation: gallery-card-appear 0.45s ease both;
+}
+
+.gallery-view-page .gallery-view-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.3);
+}
+
+.gallery-view-page .gallery-view-card.is-selected {
+  border-color: var(--gallery-gold);
+  box-shadow:
+    0 0 0 1px var(--gallery-gold),
+    0 12px 30px rgba(0, 0, 0, 0.23);
+}
+
+.gallery-view-page .gallery-view-image-wrap {
+  position: relative;
+  height: 300px;
+  overflow: hidden;
+  background: #ded8cc;
+  cursor: zoom-in;
+}
+
+.gallery-view-page .gallery-view-image-wrap--edited {
+  height: 320px;
+}
+
+.gallery-view-page .gallery-view-image-wrap:focus-visible {
+  outline: 2px solid var(--gallery-gold);
+  outline-offset: -4px;
+}
+
+.gallery-view-page .gallery-view-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.gallery-view-page .gallery-view-card:hover .gallery-view-image {
+  transform: scale(1.045);
+}
+
+.gallery-view-page .gallery-view-card-content {
+  padding: 19px;
+  border-top: 3px solid var(--gallery-gold);
+}
+
+.gallery-view-page .gallery-view-image-name {
+  margin: 0 0 15px;
+  color: #302c23;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.gallery-view-page .gallery-view-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 13px;
+}
+
+.gallery-view-page .gallery-view-card-actions .gallery-view-button {
+  flex: 1 1 auto;
+}
+
+.gallery-view-page .gallery-view-watermark-button {
+  flex: 0 0 48px !important;
+  max-width: 54px;
+}
+
+/* =========================================
+   סימון בחירה על התמונה
+========================================= */
+
+.gallery-view-page .gallery-view-selected-heart {
+  position: absolute;
+  top: 14px;
+  right: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  color: var(--gallery-gold-light);
+  background: rgba(20, 19, 16, 0.82);
+  border: 1px solid rgba(229, 209, 164, 0.65);
+  border-radius: 50%;
+  font-size: 24px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.gallery-view-page .gallery-view-selection-number {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  padding: 8px 12px;
+  color: #fffaf0;
+  background: rgba(20, 19, 16, 0.84);
+  border: 1px solid rgba(229, 209, 164, 0.55);
+  border-radius: 2px;
+  font-size: 12px;
+  font-weight: 700;
+  backdrop-filter: blur(5px);
+}
+
+.gallery-view-page .gallery-view-selection-label {
+  margin-top: 11px;
+  padding: 9px 10px;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.gallery-view-page .gallery-view-selection-label--green {
+  color: #216744;
+  background: #e8f0e8;
+  border-color: #c6ddc9;
+}
+
+.gallery-view-page .gallery-view-selection-label--orange {
+  color: #8a5b1b;
+  background: #f7edda;
+  border-color: #e5d1a4;
+}
+
+.gallery-view-page .gallery-view-selection-label--red {
+  color: #963c35;
+  background: #f6e6e2;
+  border-color: #e7c3bb;
+}
+
+/* =========================================
+   הערות לכל תמונה
+========================================= */
+
+.gallery-view-page .gallery-view-note {
+  display: block;
+  width: 100%;
+  min-height: 88px;
+  margin: 13px 0;
+  padding: 13px 14px;
+  color: #302c23;
+  background: #f0ebe0;
+  border: 1px solid #e0d4bd;
+  border-right: 3px solid var(--gallery-gold);
+  border-radius: 2px;
+  font-size: 14px;
+  line-height: 1.8;
+  resize: vertical;
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.gallery-view-page .gallery-view-note:focus {
+  border-color: var(--gallery-gold);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(198, 166, 107, 0.15);
+}
+
+.gallery-view-page .gallery-view-note::placeholder {
+  color: #969083;
+}
+
+/* =========================================
+   גלריה ריקה
+========================================= */
+
+.gallery-view-page .gallery-view-empty {
+  padding: 55px 24px;
+  color: #302c23;
+  background: var(--gallery-cream);
+  border: 1px solid #d7c8a9;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.gallery-view-page .gallery-view-empty-icon {
+  display: block;
+  margin-bottom: 16px;
+  color: var(--gallery-gold);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 64px;
+}
+
+.gallery-view-page .gallery-view-empty h3 {
+  margin: 0 0 12px;
+  color: #302c23;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 27px;
+  font-weight: 400;
+}
+
+.gallery-view-page .gallery-view-empty p {
+  margin: 0;
+  color: #777064;
+  font-size: 14px;
+  line-height: 1.9;
+}
+
+/* =========================================
+   מסך התחברות
+========================================= */
+
+.gallery-view-login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 24px;
+  background:
+    radial-gradient(ellipse at top, #373126 0%, transparent 55%),
+    var(--gallery-black, #171612);
+  direction: rtl;
+  font-family: Arial, sans-serif;
+}
+
+.gallery-view-login .gallery-view-login-card {
+  position: relative;
+  width: 100%;
+  max-width: 450px;
+  padding: 40px 36px;
+  overflow: hidden;
+  color: var(--gallery-text, #29271f);
+  background: var(--gallery-cream, #f8f5ee);
+  border: 1px solid var(--gallery-gold, #c6a66b);
+  border-radius: 4px;
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.gallery-view-login .gallery-view-login-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 4px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--gallery-gold, #c6a66b),
+    transparent
+  );
+}
+
+.gallery-view-login .gallery-view-login-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 24px;
+  color: #a88b56;
+  border: 1px solid var(--gallery-gold, #c6a66b);
+  border-radius: 50%;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 28px;
+}
+
+.gallery-view-login .gallery-view-login-title {
+  margin: 0 0 12px;
+  color: #171612;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 32px;
+  font-weight: 400;
+}
+
+.gallery-view-login .gallery-view-login-description {
+  margin: 0 0 27px;
+  color: #777064;
+  font-size: 14px;
+  line-height: 1.9;
+}
+
+.gallery-view-login .gallery-view-login-input {
+  display: block;
+  width: 100%;
+  min-height: 49px;
+  margin-bottom: 16px;
+  padding: 12px 14px;
+  color: #29271f;
+  background: #fffefa;
+  border: 1px solid #d7c8a9;
+  border-radius: 3px;
+  font-size: 16px;
+  text-align: right;
+}
+
+.gallery-view-login .gallery-view-login-input:focus {
+  border-color: var(--gallery-gold, #c6a66b);
+  outline: 2px solid rgba(198, 166, 107, 0.18);
+}
+
+.gallery-view-login .gallery-view-login-submit {
+  width: 100%;
+  min-height: 49px;
+  padding: 12px 18px;
+  color: #211c12;
+  background: linear-gradient(135deg, #e8d5a9, #c3a269);
+  border: 1px solid var(--gallery-gold, #c6a66b);
+  border-radius: 3px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.gallery-view-login .gallery-view-login-submit:hover {
+  background: linear-gradient(135deg, #f2e4c4, #d2b47b);
+  box-shadow: 0 7px 20px rgba(198, 166, 107, 0.2);
+  transform: translateY(-2px);
+}
+
+.gallery-view-login .gallery-view-login-error {
+  margin: 0 0 16px;
+  color: #a33c32;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* =========================================
+   חלון תמונה מוגדלת
+========================================= */
+
+.gallery-view-page .gallery-view-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px 24px;
+  background: rgba(10, 9, 7, 0.96);
+  backdrop-filter: blur(7px);
+  animation: gallery-modal-fade 0.2s ease;
+}
+
+.gallery-view-page .gallery-view-modal-content {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 94vw;
+  max-height: 92vh;
+  animation: gallery-modal-zoom 0.25s ease;
+}
+
+.gallery-view-page .gallery-view-modal .gallery-view-modal-image {
+  display: block;
+  max-width: 92vw;
+  max-height: 86vh;
+  object-fit: contain;
+  border: 1px solid rgba(198, 166, 107, 0.55);
+  box-shadow: 0 15px 60px rgba(0, 0, 0, 0.45);
+}
+
+.gallery-view-page .gallery-view-modal-close {
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  color: var(--gallery-gold-light);
+  background: #24221c;
+  border: 1px solid rgba(198, 166, 107, 0.55);
+  border-radius: 50%;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.gallery-view-page .gallery-view-modal-close:hover {
+  color: #1c1912;
+  background: var(--gallery-gold-light);
+}
+
+/* =========================================
+   אנימציות
+========================================= */
+
+@keyframes gallery-card-appear {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes gallery-modal-fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes gallery-modal-zoom {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* =========================================
+   התאמה לנייד
+========================================= */
+
+@media (max-width: 700px) {
+  .gallery-view-page {
+    padding: 18px 12px 35px;
+  }
+
+  .gallery-view-page .gallery-view-panel {
+    padding: 24px 17px;
+    border-radius: 3px;
+  }
+
+  .gallery-view-page .gallery-view-title {
+    font-size: 34px;
+  }
+
+  .gallery-view-page .gallery-view-subtitle {
+    font-size: 14px;
+  }
+
+  .gallery-view-page .gallery-view-section-heading {
+    align-items: flex-start;
+  }
+
+  .gallery-view-page .gallery-view-section-heading--gallery {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 13px;
+  }
+
+  .gallery-view-page .gallery-view-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .gallery-view-page .gallery-view-image-wrap {
+    height: 220px;
+  }
+
+  .gallery-view-page .gallery-view-image-wrap--edited {
+    height: 230px;
+  }
+
+  .gallery-view-page .gallery-view-card-content {
+    padding: 13px;
+  }
+
+  .gallery-view-page .gallery-view-image-name {
+    font-size: 13px;
+  }
+
+  .gallery-view-page .gallery-view-card-actions {
+    flex-direction: column;
+  }
+
+  .gallery-view-page .gallery-view-card-actions .gallery-view-button {
+    width: 100%;
+    max-width: none;
+  }
+
+  .gallery-view-page .gallery-view-watermark-button {
+    flex-basis: auto !important;
+  }
+
+  .gallery-view-page .gallery-view-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .gallery-view-page .gallery-view-actions .gallery-view-button {
+    width: 100%;
+  }
+
+  .gallery-view-page .gallery-view-legend {
+    flex-direction: column;
+    gap: 13px;
+  }
+
+  .gallery-view-login .gallery-view-login-card {
+    padding: 32px 22px;
+  }
+
+  .gallery-view-page .gallery-view-modal {
+    padding: 40px 12px 20px;
+  }
+
+  .gallery-view-page .gallery-view-modal-close {
+    top: -35px;
+    left: 0;
+  }
+}
+
+@media (max-width: 420px) {
+  .gallery-view-page .gallery-view-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .gallery-view-page .gallery-view-image-wrap,
+  .gallery-view-page .gallery-view-image-wrap--edited {
+    height: min(95vw, 380px);
+  }
+
+  .gallery-view-page .gallery-view-section-heading {
+    flex-direction: column;
+  }
+
+  .gallery-view-page .gallery-view-count-badge {
+    align-self: flex-start;
+  }
+}
+
+/* נגישות: צמצום תנועה */
+
+@media (prefers-reduced-motion: reduce) {
+  .gallery-view-page *,
+  .gallery-view-page *::before,
+  .gallery-view-page *::after,
+  .gallery-view-login *,
+  .gallery-view-login *::before,
+  .gallery-view-login *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* =========================================
+   כפתור חזרה ללקוחות — התאמה מדויקת
+   ל-ClientSelections.css
+========================================= */
+
+.gallery-view-page .gallery-view-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 10px 15px;
+
+    color: #e5d1a4;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(198, 166, 107, 0.35);
+    border-radius: 3px;
+
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: none;
+
+    transition: 0.25s ease;
+}
+
+.gallery-view-page .gallery-view-back:hover {
+    color: #e5d1a4;
+    background: rgba(198, 166, 107, 0.13);
+    border-color: #c6a66b;
+    transform: translateY(-2px);
+    box-shadow: none;
+}
+
+.gallery-view-page .gallery-view-back span {
+    font-size: 18px;
+}
+
+.gallery-view-page .gallery-view-back:focus-visible {
+    outline: 2px solid #c6a66b;
+    outline-offset: 3px;
+}
+
+/* =========================================
+   GALLERY VIEW — רקע יוקרתי שחור וזהב
+========================================= */
+
+.gallery-view-page {
+    background:
+        radial-gradient(ellipse at top, #373126 0%, transparent 55%),
+        #171612;
+    color: #29271f;
+}
+
+/* אזור עליון כהה וזהוב */
+
+.gallery-view-page .gallery-view-panel:first-of-type {
+    background:
+        radial-gradient(ellipse at 50% 30%, #393226 0%, transparent 60%),
+        linear-gradient(135deg, #24221d, #12110e);
+    color: #f8f5ee;
+    border: 1px solid rgba(198, 166, 107, 0.4);
+    border-radius: 5px;
+    box-shadow: 0 20px 55px rgba(0, 0, 0, 0.25);
+}
+
+/* כותרת ראשית */
+
+.gallery-view-page .gallery-view-panel:first-of-type .gallery-view-title {
+    color: #fffaf0;
+    font-family: Georgia, "Times New Roman", serif;
+    font-weight: 400;
+}
+
+/* כותרת משנה */
+
+.gallery-view-page .gallery-view-panel:first-of-type .gallery-view-subtitle {
+    color: #b9b3a6;
+}
+
+/* כותרות קטנות */
+
+.gallery-view-page .gallery-view-panel:first-of-type .gallery-view-eyebrow {
+    color: #c6a66b;
+}
+
+/* קו זהב */
+
+.gallery-view-page .gallery-view-panel:first-of-type .gallery-view-divider {
+    background: #c6a66b;
+}
+
+/* כפתור חזרה ללקוחות */
+
+.gallery-view-page .gallery-view-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 10px 15px;
+    color: #e5d1a4;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(198, 166, 107, 0.35);
+    border-radius: 3px;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: none;
+    transition: 0.25s ease;
+}
+
+.gallery-view-page .gallery-view-back:hover {
+    color: #e5d1a4;
+    background: rgba(198, 166, 107, 0.13);
+    border-color: #c6a66b;
+    transform: translateY(-2px);
+    box-shadow: none;
+}
+
+/* כרטיסי התוכן נשארים בצבע שמנת */
+
+.gallery-view-page .gallery-view-card,
+.gallery-view-page .gallery-view-empty {
+    background: #f8f5ee;
+    border-color: #d7c8a9;
+}
+
+/* כותרות הגלריה על הרקע הכהה */
+
+.gallery-view-page .gallery-view-gallery-section .gallery-view-section-title {
+    color: #fffaf0;
+}
+
+/* התאמה לנייד */
+
+@media (max-width: 700px) {
+    .gallery-view-page {
+        padding: 14px 12px 35px;
+    }
+
+    .gallery-view-page .gallery-view-panel:first-of-type {
+        padding: 24px 17px;
+    }
+}
+
+/* חלונית קופצת להודעות מכסת התמונות */
+
+.gallery-view-notice-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(12, 11, 9, 0.82);
+    backdrop-filter: blur(7px);
+    animation: gallery-notice-fade 0.25s ease;
+}
+
+.gallery-view-notice {
+    width: 100%;
+    max-width: 440px;
+    padding: 35px 30px 30px;
+    text-align: center;
+    color: #f8f5ee;
+    background:
+        radial-gradient(
+            ellipse at top,
+            #393226 0%,
+            transparent 65%
+        ),
+        #171612;
+    border: 1px solid #c6a66b;
+    border-radius: 5px;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+    animation: gallery-notice-enter 0.3s ease;
+}
+
+.gallery-view-notice-decoration {
+    margin-bottom: 12px;
+    color: #c6a66b;
+    font-size: 32px;
+}
+
+.gallery-view-notice h2 {
+    margin: 0;
+    color: #e5d1a4;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 27px;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.gallery-view-notice-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 18px 0;
+    color: #c6a66b;
+    font-size: 11px;
+}
+
+.gallery-view-notice-divider span {
+    width: 48px;
+    height: 1px;
+    background: #c6a66b;
+}
+
+.gallery-view-notice p {
+    margin: 0 0 25px;
+    color: #e5e0d5;
+    font-size: 15px;
+    line-height: 1.9;
+    white-space: pre-line;
+}
+
+.gallery-view-notice-confirm {
+    width: 100%;
+    min-height: 46px;
+    padding: 12px 20px;
+    color: #211c12;
+    background: linear-gradient(
+        135deg,
+        #e8d5a9,
+        #c3a269
+    );
+    border: 1px solid #c6a66b;
+    border-radius: 3px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.gallery-view-notice-confirm:hover {
+    background: linear-gradient(
+        135deg,
+        #f2e4c4,
+        #d2b47b
+    );
+    transform: translateY(-1px);
+}
+
+.gallery-view-notice-confirm:focus-visible {
+    outline: 2px solid #e5d1a4;
+    outline-offset: 4px;
+}
+
+@keyframes gallery-notice-fade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes gallery-notice-enter {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@media (max-width: 480px) {
+    .gallery-view-notice {
+        padding: 28px 20px 22px;
+    }
+
+    .gallery-view-notice h2 {
+        font-size: 24px;
+    }
+
+    .gallery-view-notice p {
+        font-size: 14px;
+    }
+}
+.gallery-view-footer {
+    margin-top: 50px;
+    padding: 24px 16px;
+    text-align: center;
+    color: #c6a66b;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    border-top: 1px solid rgba(198, 166, 107, 0.35);
+    direction: rtl;
+}
+
