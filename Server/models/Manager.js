@@ -10,7 +10,12 @@ const ManagerSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
-    }
+    },
+    role: {
+    type: String,
+    enum: ["superadmin", "manager"],
+    default: "manager"
+}
 }, {
     timestamps: true
 })
