@@ -17,13 +17,10 @@ const WATERMARK_PATH = path.join(
     "watermark",
     "logo.png"
 );
-console.log("GALLERY CONTROLLER LOADED");
 const addWatermark = async (inputPath, outputPath) => {
     
-    console.log("ADD WATERMARK FUNCTION STARTED");
     try {
-        console.log("LOGO PATH:", WATERMARK_PATH);
-        console.log("LOGO EXISTS:", fs.existsSync(WATERMARK_PATH));
+      
 
         if (!fs.existsSync(WATERMARK_PATH)) {
             throw new Error("קובץ הלוגו לא נמצא");
@@ -31,7 +28,6 @@ const addWatermark = async (inputPath, outputPath) => {
 
         const metadata = await sharp(inputPath).metadata();
 
-        console.log("IMAGE SIZE:", metadata.width, metadata.height);
 
         const watermarkWidth = Math.max(
             80,
@@ -56,7 +52,6 @@ gravity: "southwest",
             .jpeg({ quality: 95 })
             .toFile(outputPath);
 
-        console.log("WATERMARK FINISHED:", outputPath);
     } catch (error) {
         console.error("WATERMARK ERROR:", error);
         throw error;

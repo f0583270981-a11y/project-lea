@@ -70,14 +70,13 @@ const foundUser = await Manager.findOne({
     username: normalizedUsername
 });
 
-console.log("Username received:", normalizedUsername);
-console.log("Manager found:", Boolean(foundUser));
+
         if (!foundUser) {
             return res.status(401).json({ message: 'Unauthorized' })
         }
 
         const match = await bcrypt.compare(password, foundUser.password)
-        console.log("Password matches:", match);
+       
         if (!match) {
             return res.status(401).json({ message: 'Unauthorized' })
         }
@@ -253,7 +252,6 @@ const updateManager = async (req, res) => {
             });
         }
 
-        console.error("Update manager error:", error);
 
         return res.status(500).json({
             message: "שגיאת שרת"
@@ -313,7 +311,6 @@ const deleteManager = async (req, res) => {
         });
 
     } catch (error) {
-        console.error("Delete manager error:", error);
 
         return res.status(500).json({
             message: "שגיאת שרת"
