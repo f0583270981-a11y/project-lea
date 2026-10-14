@@ -884,3 +884,36 @@
   }
 }
 
+.hide-gallery-footer {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    margin-top: 0;
+    padding: 10px 20px 14px;
+    box-sizing: border-box;
+    background: var(--studio-cream);
+    border-top: 1px solid #dfd1b9;
+    flex-shrink: 0;
+}
+
+.hide-gallery-button {
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    background: #fff;
+    color: #6b7280;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.hide-gallery-button:hover {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+

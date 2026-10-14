@@ -18,6 +18,7 @@ const PhotographerDashboard = () => {
         loadGalleries();
     }, []);
 
+    // טעינת הגלריות
     const loadGalleries = async () => {
         try {
             setLoading(true);
@@ -34,8 +35,8 @@ const PhotographerDashboard = () => {
                 `${API_URL}/galleries`,
                 {
                     headers: {
-                        Authorization: `Bearer ${token}`
-                    }
+                        Authorization: `Bearer ${token}`,
+                    },
                 }
             );
 
@@ -67,6 +68,46 @@ const PhotographerDashboard = () => {
         navigate("/login");
     };
 
+    // הסתרת גלריה מלוח הניהול
+    const handleHideGallery = async (gallery) => {
+        const confirmed = window.confirm(
+            `להסתיר את הגלריה של ${gallery.clientName} מלוח הניהול?`
+        );
+
+        if (!confirmed) return;
+
+        try {
+            const token = localStorage.getItem("photographerToken");
+
+            if (!token) {
+                navigate("/login");
+                return;
+            }
+
+            await axios.put(
+                `${API_URL}/galleries/${gallery._id}`,
+                { isHidden: true },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            // הסרת הכרטיס מהתצוגה בלי לטעון מחדש את העמוד
+            setGalleries((prev) =>
+                prev.filter((item) => item._id !== gallery._id)
+            );
+        } catch (err) {
+            console.error("Hide gallery error:", err);
+
+            alert(
+                err.response?.data?.message ||
+                "לא ניתן להסתיר את הגלריה. נסי שוב."
+            );
+        }
+    };
+
     // סימון / ביטול "תמונות ערוכות נשלחו"
     const handleFinalDelivered = async (gallery) => {
         try {
@@ -78,8 +119,8 @@ const PhotographerDashboard = () => {
                 { finalDelivered: newValue },
                 {
                     headers: {
-                        Authorization: `Bearer ${token}`
-                    }
+                        Authorization: `Bearer ${token}`,
+                    },
                 }
             );
 
@@ -100,7 +141,7 @@ const PhotographerDashboard = () => {
         }
     };
 
-    // הרשאת הורדה
+    // הרשאת הורדה ללקוחה
     const handleClientDownloadPermission = async (gallery) => {
         try {
             const token = localStorage.getItem("photographerToken");
@@ -111,8 +152,8 @@ const PhotographerDashboard = () => {
                 { allowClientDownload: newValue },
                 {
                     headers: {
-                        Authorization: `Bearer ${token}`
-                    }
+                        Authorization: `Bearer ${token}`,
+                    },
                 }
             );
 
@@ -136,6 +177,7 @@ const PhotographerDashboard = () => {
         }
     };
 
+    // סינון לקוחות לפי שם
     const filteredGalleries = galleries.filter((gallery) =>
         gallery.clientName
             ?.toLowerCase()
@@ -535,6 +577,21 @@ const PhotographerDashboard = () => {
                                         התמונות הערוכות נשלחו ללקוחה
                                     </div>
                                 )}
+                            </div>
+
+                            {/* כפתור הסתרה בתחתית הכרטיס */}
+                            <div className="hide-gallery-footer">
+                                <button
+                                    type="button"
+                                    onClick={() =>
+                                        handleHideGallery(gallery)
+                                    }
+                                    className="hide-gallery-button"
+                                    title="הסתרת גלריה מלוח הניהול"
+                                    aria-label={`הסתרת הגלריה של ${gallery.clientName}`}
+                                >
+                                    🗑️
+                                </button>
                             </div>
                         </article>
                     ))}
