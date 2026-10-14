@@ -454,7 +454,8 @@ const PhotographerDashboard = () => {
 
                                         <small>ניהול והעלאה</small>
                                     </button>
-                                </div>
+                                 
+                      </div>
                             </div>
 
                             {/* הגדרות לקוחה */}
@@ -579,20 +580,71 @@ const PhotographerDashboard = () => {
                                 )}
                             </div>
 
-                            {/* כפתור הסתרה בתחתית הכרטיס */}
-                            <div className="hide-gallery-footer">
-                                <button
-                                    type="button"
-                                    onClick={() =>
-                                        handleHideGallery(gallery)
-                                    }
-                                    className="hide-gallery-button"
-                                    title="הסתרת גלריה מלוח הניהול"
-                                    aria-label={`הסתרת הגלריה של ${gallery.clientName}`}
-                                >
-                                    🗑️
-                                </button>
-                            </div>
+                       
+{/* כפתורי עריכה והסתרה בתחתית הכרטיס */}
+<div className="hide-gallery-footer">
+    <button
+        type="button"
+        onClick={() => navigate(`/admin/edit-gallery/${gallery._id}`)}
+        title="עריכת פרטי לקוחה"
+        aria-label={`עריכת פרטי הלקוחה ${gallery.clientName}`}
+        className="flex h-10 w-10 items-center justify-center rounded-xl
+                   border border-[#dfd1b9] bg-[#fffaf2] text-[#a47d3d]
+                   shadow-sm transition-all duration-200
+                   hover:-translate-y-0.5 hover:border-[#c9a96e]
+                   hover:bg-[#ead9b8] hover:text-[#090909]
+                   focus-visible:outline-none focus-visible:ring-2
+                   focus-visible:ring-[#c9a96e]"
+    >
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="19"
+            height="19"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.7"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+        >
+            <path d="M12 20h9" />
+            <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L8 18l-4 1 1-4Z" />
+        </svg>
+    </button>
+
+    {/* הסתרת גלריה */}
+    <button
+        type="button"
+        onClick={() => handleHideGallery(gallery)}
+        title="הסתרת גלריה מלוח הניהול"
+        aria-label={`הסתרת הגלריה של ${gallery.clientName}`}
+        className="flex h-10 w-10 items-center justify-center rounded-xl
+                   border border-[#dfd1b9] bg-[#fffaf2] text-[#a47d3d]
+                   shadow-sm transition-all duration-200
+                   hover:-translate-y-0.5 hover:border-[#d9a59b]
+                   hover:bg-[#f8e7e3] hover:text-[#a33b2b]
+                   focus-visible:outline-none focus-visible:ring-2
+                   focus-visible:ring-[#d9a59b]"
+    >
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="19"
+            height="19"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.7"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+        >
+            <path d="M3 6h18" />
+            <path d="M8 6V4h8v2" />
+            <path d="m19 6-1 14H6L5 6" />
+            <path d="M10 11v5M14 11v5" />
+        </svg>
+    </button>
+</div>
+
                         </article>
                     ))}
                 </section>

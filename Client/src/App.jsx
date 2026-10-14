@@ -12,7 +12,8 @@ import Login from "./manger/Login";
 import ClientSelections from "./galery/ClientSelections";
 import PhotographerSelections from "./galery/PhotographerSelections";
 import ProtectedRoute from "./ProtectedRoute";
-
+//import EditGallery from "./manger/EditGallery";
+import GalleryDetailsEditor from "./manger/GalleryDetailsEditor";
 function App() {
     return (
         <Router>
@@ -63,6 +64,10 @@ function App() {
                             path="gallery/:id"
                             element={<GalleryView mode="photographer" />}
                         />
+                        <Route
+    path="admin/edit-gallery/:id"
+    element={<GalleryDetailsEditor />}
+/>
 
                         {/* בחירות הלקוחה */}
                         <Route
@@ -95,8 +100,7 @@ function App() {
                         />
 
                     </Route>
-
-                </Route>
+          </Route>
 
             </Routes>
         </Router>

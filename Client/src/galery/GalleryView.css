@@ -1184,4 +1184,34 @@
     border-top: 1px solid rgba(198, 166, 107, 0.35);
     direction: rtl;
 }
+/* =========================================
+   אפקטים עדינים לגלריית התמונות
+========================================= */
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .gallery-view-page .gallery-view-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--gallery-gold);
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.25);
+  }
+
+  .gallery-view-page .gallery-view-card:hover .gallery-view-image {
+    transform: scale(1.035);
+  }
+
+  .gallery-view-page .gallery-view-button:hover:not(:disabled) {
+    box-shadow: 0 5px 16px rgba(198, 166, 107, 0.16);
+  }
+}
+
+/* תמיכה במשתמשים שמעדיפים פחות תנועה */
+@media (prefers-reduced-motion: reduce) {
+  .gallery-view-page .gallery-view-card,
+  .gallery-view-page .gallery-view-image,
+  .gallery-view-page .gallery-view-button {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}
 

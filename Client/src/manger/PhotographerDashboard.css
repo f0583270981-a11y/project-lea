@@ -884,36 +884,165 @@
   }
 }
 
+/* ========================================
+   כפתורי עריכה ומחיקה בתחתית כרטיס הלקוחה
+======================================== */
+
 .hide-gallery-footer {
     display: flex;
-    justify-content: flex-end;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+
+    width: 100%;
+    margin-top: 12px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+
+    background: var(--studio-cream);
+    border-top: 1px solid var(--studio-border);
+    flex-shrink: 0;
+}
+/* כפתורי עריכה והסתרה בתחתית הכרטיס */
+.hide-gallery-footer {
+    display: flex;
+    align-items: center;
+justify-content: flex-end;
+    gap: 10px;
     width: 100%;
     margin-top: 0;
-    padding: 10px 20px 14px;
+    padding: 12px 20px 18px;
+
     box-sizing: border-box;
+    direction: rtl;
     background: var(--studio-cream);
-    border-top: 1px solid #dfd1b9;
+    border-top: 1px solid var(--studio-border);
     flex-shrink: 0;
 }
 
 .hide-gallery-button {
-    width: 30px;
-    height: 30px;
-    padding: 0;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid #e5e7eb;
-    border-radius: 6px;
-    background: #fff;
-    color: #6b7280;
-    font-size: 15px;
-    cursor: pointer;
-    transition: background 0.2s ease, color 0.2s ease;
+
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    flex-shrink: 0;
+
+    border: 1px solid var(--studio-border);
+    border-radius: 12px;
+    background: #fffaf2;
+    color: var(--studio-gold-dark);
+
+    box-shadow: 0 2px 6px rgb(32 28 22 / 5%);
 }
 
 .hide-gallery-button:hover {
-    background: #fee2e2;
-    color: #b91c1c;
+    background: #ead9b8;
+    border-color: var(--studio-gold);
+    color: var(--studio-black);
+    transform: translateY(-2px);
 }
 
+@media (max-width: 700px) {
+    .hide-gallery-footer {
+        padding: 10px 18px 14px;
+        gap: 8px;
+    }
+
+    .hide-gallery-button {
+        width: 38px;
+        height: 38px;
+    }
+}
+/* ========================================
+   אפקטים יוקרתיים ועדינים
+======================================== */
+
+/* כרטיסי לקוחות */
+.dashboard-gallery-card {
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .dashboard-gallery-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 40px rgb(201 169 110 / 12%);
+    border-color: var(--studio-gold);
+  }
+}
+
+/* כפתורי הפעולות */
+.dashboard-action-button,
+.dashboard-create-button,
+.dashboard-logout-button,
+.dashboard-empty-button {
+  transition:
+    transform 0.22s ease,
+    background-color 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .dashboard-action-button:hover,
+  .dashboard-create-button:hover,
+  .dashboard-empty-button:hover {
+    transform: translateY(-2px);
+  }
+}
+
+/* אפקט לחיצה */
+.dashboard-page button:active {
+  transform: scale(0.98);
+}
+
+/* הופעה הדרגתית של הכרטיסים */
+@media (prefers-reduced-motion: no-preference) {
+  .dashboard-gallery-card {
+    animation: gallery-card-enter 0.45s ease both;
+  }
+
+  .dashboard-gallery-card:nth-child(2) {
+    animation-delay: 60ms;
+  }
+
+  .dashboard-gallery-card:nth-child(3) {
+    animation-delay: 120ms;
+  }
+
+  .dashboard-gallery-card:nth-child(4) {
+    animation-delay: 180ms;
+  }
+
+  @keyframes gallery-card-enter {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* כפתורי עריכה והסתרה */
+.hide-gallery-button {
+  transition:
+    transform 0.22s ease,
+    background-color 0.22s ease,
+    border-color 0.22s ease,
+    color 0.22s ease;
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .hide-gallery-button:hover {
+    transform: translateY(-2px);
+  }
+}
