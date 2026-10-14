@@ -38,6 +38,15 @@
 const jwt = require("jsonwebtoken");
 
 const verifyClientJWT = (req, res, next) => {
+    //13/10//////
+    const galleryId = req.params.id;
+
+if (!galleryId || !/^[a-fA-F0-9]{24}$/.test(galleryId)) {
+    return res.status(400).json({
+        message: "מזהה גלריה לא תקין"
+    });
+}
+//////
     try {
         const authHeader =
             req.headers.authorization ||

@@ -6,11 +6,21 @@ const register = async (req, res) => {
     try {
         const { username, password } = req.body
 
-        if (!username || !password) {
-            return res.status(400).json({
-                message: "נא למלא שם משתמש וסיסמה"
-            })
-        }
+        // if (!username || !password) {
+        //     return res.status(400).json({
+        //         message: "נא למלא שם משתמש וסיסמה"
+        //     })
+        // }
+        if (
+    typeof username !== "string" ||
+    !username.trim() ||
+    typeof password !== "string" ||
+    password.length < 8
+) {
+    return res.status(400).json({
+        message: "יש להזין שם משתמש וסיסמה באורך של לפחות 8 תווים"
+    });
+}
 
         const ifManger = await Manager.findOne({ username })
 
@@ -22,11 +32,15 @@ const register = async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(password, 10)
 
-        const newManager = await Manager.create({
-            username,
-            password: hashedPassword
-        })
-
+        // const newManager = await Manager.create({
+        //     username,
+        //     password: hashedPassword
+        // })
+const newManager = await Manager.create({
+    username: username.trim(),
+    password: hashedPassword,
+    role: "manager"
+});
         return res.status(201).json({
             message: "המנהל נוצר בהצלחה",
             manager: {
@@ -49,23 +63,48 @@ const login = async (req, res) => {
         if (!username || !password) {
             return res.status(400).json({ message: 'All fields are required' })
         }
-        const foundUser = await Manager.findOne({ username })
+      //  const foundUser = await Manager.findOne({ username })
+      const normalizedUsername = username.trim();
+
+const foundUser = await Manager.findOne({
+    username: normalizedUsername
+});
+
+console.log("Username received:", normalizedUsername);
+console.log("Manager found:", Boolean(foundUser));
         if (!foundUser) {
             return res.status(401).json({ message: 'Unauthorized' })
         }
 
         const match = await bcrypt.compare(password, foundUser.password)
+        console.log("Password matches:", match);
         if (!match) {
             return res.status(401).json({ message: 'Unauthorized' })
         }
+//13/10///////
+//       const mangerInfo = { 
+//     _id: foundUser.id, 
+//     username: foundUser.username,
+//     type: "manager"
+// }
+//         const accessToken = jwt.sign(mangerInfo, process.env.ACCESS_TOKEN_SECRET)
+//         return res.status(200).json({ accessToken })
 
-      const mangerInfo = { 
-    _id: foundUser.id, 
+
+const mangerInfo = {
+    _id: foundUser.id,
     username: foundUser.username,
     type: "manager"
-}
-        const accessToken = jwt.sign(mangerInfo, process.env.ACCESS_TOKEN_SECRET)
-        return res.status(200).json({ accessToken })
+};
+
+const accessToken = jwt.sign(
+    mangerInfo,
+    process.env.ACCESS_TOKEN_SECRET,
+    { expiresIn: "8h" }
+);
+
+return res.status(200).json({ accessToken });
+//=====////13/10////====
     } catch (error) {
         res.status(500).json({ message: "שגיאת שרת", error: error.message })
     }
@@ -102,51 +141,186 @@ const getManagerById = async (req, res) => {
     }
 }
 //עדכון מנהל
+// const updateManager = async (req, res) => {
+//     try {
+//         const { id } = req.params
+//         const { username, password } = req.body
+
+//         if (!id) {
+//             return res.status(400).json({ message: 'Manager ID is required' })
+//         }
+
+//         const manager = await Manager.findById(id).exec()
+//         if (!manager) {
+//             return res.status(404).json({ message: 'Manager not found' })
+//         }
+
+//         if (username) manager.username = username
+//         if (password) {
+//             manager.password = await bcrypt.hash(password, 10)
+//         }
+
+//         const updatedManager = await manager.save()
+//         return res.json({ message: `Manager ${updatedManager.username} updated successfully` })
+//     } catch (error) {
+//         return res.status(500).json({ message: "שגיאת שרת", error: error.message })
+//     }
+// }
+
 const updateManager = async (req, res) => {
     try {
-        const { id } = req.params
-        const { username, password } = req.body
+        const { id } = req.params;
+        const { username, password } = req.body;
 
         if (!id) {
-            return res.status(400).json({ message: 'Manager ID is required' })
+            return res.status(400).json({
+                message: "Manager ID is required"
+            });
         }
 
-        const manager = await Manager.findById(id).exec()
-        if (!manager) {
-            return res.status(404).json({ message: 'Manager not found' })
+        const managerToUpdate = await Manager.findById(id);
+
+        if (!managerToUpdate) {
+            return res.status(404).json({
+                message: "Manager not found"
+            });
         }
 
-        if (username) manager.username = username
-        if (password) {
-            manager.password = await bcrypt.hash(password, 10)
+        // לא מאפשרים לשנות את פרטי המנהלת הראשית
+        if (managerToUpdate.role === "superadmin") {
+            return res.status(403).json({
+                message: "לא ניתן לעדכן את פרטי המנהלת הראשית"
+            });
         }
 
-        const updatedManager = await manager.save()
-        return res.json({ message: `Manager ${updatedManager.username} updated successfully` })
+        if (username !== undefined) {
+            if (
+                typeof username !== "string" ||
+                !username.trim()
+            ) {
+                return res.status(400).json({
+                    message: "שם המשתמש אינו תקין"
+                });
+            }
+
+            const normalizedUsername = username.trim();
+
+            const existingManager = await Manager.findOne({
+                username: normalizedUsername,
+                _id: { $ne: managerToUpdate._id }
+            });
+
+            if (existingManager) {
+                return res.status(409).json({
+                    message: "שם המשתמש כבר קיים במערכת"
+                });
+            }
+
+            managerToUpdate.username = normalizedUsername;
+        }
+
+        if (password !== undefined) {
+            if (
+                typeof password !== "string" ||
+                password.length < 8
+            ) {
+                return res.status(400).json({
+                    message: "הסיסמה חייבת להכיל לפחות 8 תווים"
+                });
+            }
+
+            managerToUpdate.password = await bcrypt.hash(
+                password,
+                10
+            );
+        }
+
+        await managerToUpdate.save();
+
+        return res.json({
+            message: "פרטי המנהל עודכנו בהצלחה",
+            manager: {
+                _id: managerToUpdate._id,
+                username: managerToUpdate.username,
+                role: managerToUpdate.role
+            }
+        });
+
     } catch (error) {
-        return res.status(500).json({ message: "שגיאת שרת", error: error.message })
+        if (error.code === 11000) {
+            return res.status(409).json({
+                message: "שם המשתמש כבר קיים במערכת"
+            });
+        }
+
+        console.error("Update manager error:", error);
+
+        return res.status(500).json({
+            message: "שגיאת שרת"
+        });
     }
-}
+};
+
 //מחיקת מנהל
+// const deleteManager = async (req, res) => {
+//     try {
+
+//         const { id } = req.params
+//         if (!id) {
+//             return res.status(400).json({ message: 'Manager ID required' })
+//         }
+
+//         const manager = await Manager.findById(id).exec()
+//         if (!manager) {
+//             return res.status(404).json({ message: 'Manager not found' })
+//         }
+
+//         const result = await manager.deleteOne()
+//         return res.json({ message: `Manager ${result.username} deleted successfully` })
+//     } catch (error) {
+//         return res.status(500).json({ message: "שגיאת שרת", error: error.message })
+//     }
+// }
+
 const deleteManager = async (req, res) => {
     try {
+        const { id } = req.params;
 
-        const { id } = req.params
         if (!id) {
-            return res.status(400).json({ message: 'Manager ID required' })
+            return res.status(400).json({
+                message: "Manager ID required"
+            });
         }
 
-        const manager = await Manager.findById(id).exec()
-        if (!manager) {
-            return res.status(404).json({ message: 'Manager not found' })
+        const managerToDelete = await Manager.findById(id);
+
+        if (!managerToDelete) {
+            return res.status(404).json({
+                message: "Manager not found"
+            });
         }
 
-        const result = await manager.deleteOne()
-        return res.json({ message: `Manager ${result.username} deleted successfully` })
+        if (managerToDelete.role === "superadmin") {
+            return res.status(403).json({
+                message: "לא ניתן למחוק את המנהלת הראשית"
+            });
+        }
+
+        await managerToDelete.deleteOne();
+
+        return res.json({
+            message: "המנהל נמחק בהצלחה"
+        });
+
     } catch (error) {
-        return res.status(500).json({ message: "שגיאת שרת", error: error.message })
+        console.error("Delete manager error:", error);
+
+        return res.status(500).json({
+            message: "שגיאת שרת"
+        });
     }
-}
+};
+
 module.exports = {
     register,
     login,

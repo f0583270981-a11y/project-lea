@@ -222,9 +222,12 @@ const createGallery = async (req, res) => {
 const getAllGalleries = async (req, res) => {
     try {
 
-        const galleries =
-            await Gallery
-                .find()
+        // const galleries =
+        //     await Gallery
+                // .find()
+                //14/10////
+                const galleries = await Gallery.find({ isHidden: { $ne: true } })
+                /////
                 .select("-clientPassword")
                 .sort({
                     createdAt: -1
@@ -408,14 +411,19 @@ const getGalleryForClient = async (
         }
 
 
-
-        const gallery =
-    await Gallery
-        .findById(id)
-        .select(
-            "clientName clientEmail maxSelections images editedPhotosLink finalDelivered editedImages allowClientDownload"
-        );
-
+//////////13/10/////
+    //     const gallery =
+    // await Gallery
+    //     .findById(id)
+    //     .select(
+    //         "clientName clientEmail maxSelections images editedPhotosLink finalDelivered editedImages allowClientDownload"
+    //     );
+const gallery = await Gallery
+    .findById(id)
+    .select(
+        "clientName maxSelections images editedPhotosLink finalDelivered editedImages allowClientDownload"
+    );
+    //////////////
         if (!gallery) {
             return res.status(404).json({
                 message:
@@ -580,123 +588,102 @@ const savePhotographerSelections = async (
 // שליחת הגלריה הרגילה ללקוחה
 // ======================================================
 
-const sendGalleryToClient = async (
-    req,
-    res
-) => {
-
+const sendGalleryToClient = async (req, res) => {
     try {
-
         const { id } = req.params;
 
-        const gallery =
-            await Gallery.findById(id);
+        const gallery = await Gallery.findById(id);
 
         if (!gallery) {
             return res.status(404).json({
-                message:
-                    "הגלריה לא נמצאה"
+                message: "הגלריה לא נמצאה"
             });
         }
 
-        const selectedImages =
-            gallery.images.filter(
-                image =>
-                    image.photographerSelected
-            );
-            for (const image of selectedImages) {
-    if (!image.watermarkedImageUrl) {
-
-        const originalFileName =
-            path.basename(image.imageUrl);
-
-        const originalPath =
-            path.join(
-                process.cwd(),
-                "uploads",
-                originalFileName
-            );
-
-        const watermarkedFileName =
-            `${path.parse(originalFileName).name}-watermarked${path.extname(originalFileName)}`;
-
-        const watermarkedPath =
-            path.join(
-                process.cwd(),
-                "uploads",
-                watermarkedFileName
-            );
-
-        await addWatermark(
-            originalPath,
-            watermarkedPath
+        // איתור התמונות שהצלמת בחרה לשלוח
+        const selectedImages = gallery.images.filter(
+            image => image.photographerSelected
         );
 
-        image.watermarkedImageUrl =
-            `${req.protocol}://${req.get("host")}/uploads/${watermarkedFileName}`;
-console.log(
-    "WATERMARK URL:",
-    image.watermarkedImageUrl
-);
-        image.watermarked = true;
-    }
-}
-
+        // בדיקה לפני יצירת סימני מים
         if (selectedImages.length === 0) {
             return res.status(400).json({
-                message:
-                    "אין תמונות שנבחרו על ידי הצלמת"
+                message: "אין תמונות שנבחרו על ידי הצלמת"
             });
         }
 
-        // יצירת סיסמה חדשה
-        const clientPassword =
-            generateRandomPassword();
+        // יצירת סימני מים רק לתמונות שנבחרו
+        for (const image of selectedImages) {
+            if (!image.watermarkedImageUrl) {
+                const originalFileName = path.basename(
+                    image.imageUrl
+                );
 
-        const hashedPassword =
-            await bcrypt.hash(
-                clientPassword,
-                10
-            );
+                const originalPath = path.join(
+                    process.cwd(),
+                    "uploads",
+                    originalFileName
+                );
 
-        gallery.clientPassword =
-            hashedPassword;
+                const watermarkedFileName =
+                    `${path.parse(originalFileName).name}-watermarked${path.extname(originalFileName)}`;
 
+                const watermarkedPath = path.join(
+                    process.cwd(),
+                    "uploads",
+                    watermarkedFileName
+                );
+
+                await addWatermark(
+                    originalPath,
+                    watermarkedPath
+                );
+
+                image.watermarkedImageUrl =
+                    `${req.protocol}://${req.get("host")}/uploads/${watermarkedFileName}`;
+
+                image.watermarked = true;
+
+                console.log(
+                    "WATERMARK URL:",
+                    image.watermarkedImageUrl
+                );
+            }
+        }
+
+        // יצירת סיסמה חדשה ללקוחה
+        const clientPassword = generateRandomPassword();
+
+        const hashedPassword = await bcrypt.hash(
+            clientPassword,
+            10
+        );
+
+        gallery.clientPassword = hashedPassword;
+
+        // שמירת כתובות התמונות עם סימני המים
         await gallery.save();
 
         const frontendUrl =
             process.env.FRONTEND_URL ||
             "http://localhost:5173";
 
-        // הקישור דורש התחברות מחדש
         const galleryUrl =
             `${frontendUrl}/client/gallery/${gallery._id}?login=required`;
 
+        // שליחת המייל ללקוחה
         await transporter.sendMail({
-
-            from:
-                process.env.EMAIL_USER,
-
-            to:
-                gallery.clientEmail,
-
-            subject:
-                "הגלריה שלך מוכנה לצפייה",
+            from: process.env.EMAIL_USER,
+            to: gallery.clientEmail,
+            subject: "הגלריה שלך מוכנה לצפייה",
 
             html: `
                 <div dir="rtl">
+                    <h2>שלום ${gallery.clientName}</h2>
 
-                    <h2>
-                        שלום ${gallery.clientName}
-                    </h2>
+                    <p>הגלריה שלך מוכנה לצפייה.</p>
 
-                    <p>
-                        הגלריה שלך מוכנה לצפייה.
-                    </p>
-
-                    <p>
-                        לחצי על הקישור:
-                    </p>
+                    <p>לחצי על הקישור:</p>
 
                     <p>
                         <a href="${galleryUrl}">
@@ -705,44 +692,27 @@ console.log(
                     </p>
 
                     <p>
-                        <strong>
-                            סיסמה:
-                        </strong>
-
+                        <strong>סיסמה:</strong>
                         ${clientPassword}
                     </p>
 
-                    <p>
-                        נשמח לראות אותך בגלריה.
-                    </p>
-
+                    <p>נשמח לראות אותך בגלריה.</p>
                 </div>
             `
         });
 
         return res.json({
-
-            message:
-                "הגלריה נשלחה ללקוחה בהצלחה",
-
+            message: "הגלריה נשלחה ללקוחה בהצלחה",
             galleryUrl,
-
             clientPassword
         });
 
     } catch (error) {
-
-        console.error(
-            "Send gallery error:",
-            error
-        );
+        console.error("Send gallery error:", error);
 
         return res.status(500).json({
-            message:
-                "שגיאה בשליחת הגלריה",
-
-            error:
-                error.message
+            message: "שגיאה בשליחת הגלריה",
+            error: error.message
         });
     }
 };
@@ -1378,13 +1348,28 @@ const submitClientSelections = async (
     try {
 
         const { id } = req.params;
+//////13/10//////
+        // const {
+        //     selectedImageIds,
+        //     ///12/10//
+        //        clientNotes = {}
+        //        //////
+        // } = req.body;
+const {
+    selectedImageIds,
+    clientNotes = {}
+} = req.body;
 
-        const {
-            selectedImageIds,
-            ///12/10//
-               clientNotes = {}
-               //////
-        } = req.body;
+if (
+    clientNotes === null ||
+    typeof clientNotes !== "object" ||
+    Array.isArray(clientNotes)
+) {
+    return res.status(400).json({
+        message: "ההערות שנשלחו אינן תקינות"
+    });
+}
+///////////////
 
         if (
             !req.client ||
@@ -1404,6 +1389,14 @@ const submitClientSelections = async (
                     "selectedImageIds חייב להיות מערך"
             });
         }
+        ////
+        const uniqueImageIds = new Set(selectedImageIds);
+
+if (uniqueImageIds.size !== selectedImageIds.length) {
+    return res.status(400).json({
+        message: "נשלחו מזהי תמונות כפולים"
+    });
+}
 
         const gallery =
             await Gallery.findById(id);
@@ -1632,7 +1625,7 @@ const getClientSelections = async (
                             "orange";
 
                         selectionColorText =
-                            "בתוספת תשלום";
+                            "3 תמונות נוספות ללא תשלום"
 
                     } else {
 
@@ -1714,7 +1707,8 @@ const updateGalleryById = async (
     rawPhotosLink,
     editedPhotosLink,
     finalDelivered,
-    allowClientDownload
+    allowClientDownload,
+    isHidden
 } = req.body;
         const gallery =
             await Gallery.findById(id);
@@ -1787,7 +1781,17 @@ const updateGalleryById = async (
     gallery.allowClientDownload =
         allowClientDownload;
 }
+////////14/10/////
+if (isHidden !== undefined) {
+    if (typeof isHidden !== "boolean") {
+        return res.status(400).json({
+            message: "ערך ההסתרה חייב להיות true או false"
+        });
+    }
 
+    gallery.isHidden = isHidden;
+}
+//////////
         await gallery.save();
 
         const result =
