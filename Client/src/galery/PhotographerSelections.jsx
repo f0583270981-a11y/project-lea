@@ -7,8 +7,8 @@ import {
 } from "react-router-dom";
 
 import "./PhotographerSelections.css";
-
-const API_URL = "http://localhost:2005/api";
+import { API_URL } from "../config";
+//const API_URL = "http://localhost:2005/api";
 
 const PhotographerSelections = () => {
     const { id } = useParams();

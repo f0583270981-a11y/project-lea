@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import "./GalleryView.css";
 import axios from "axios";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
-
-const API_URL = "http://localhost:2005/api";
+import { API_URL } from "../config";
+//const API_URL = "http://localhost:2005/api";
 
 const GalleryView = ({ mode }) => {
     const { id } = useParams();

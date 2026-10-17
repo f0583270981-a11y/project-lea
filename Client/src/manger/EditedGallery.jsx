@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import "./EditedGallery.css";
-
-const API_URL = "http://localhost:2005/api";
+import { API_URL } from "../config";
+//const API_URL = "http://localhost:2005/api";
 
 const EditedGallery = () => {
     const { id } = useParams();
